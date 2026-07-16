@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dieta pudełkowa — Tydzień 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2E7;
+  --paper:#FFFFFF;
+  --ink:#212E1D;
+  --ink-soft:#54614C;
+  --line:#D8DECB;
+  --gold:#C4922E;
+  --coral:#DD5B5F;
+  --sage-deep:#3B5136;
+  --tag-husband:#3B5136;
+  --tag-wife:#B4574F;
+  --tag-mieso:#8C4A3A;
+  --tag-ryba:#2E6B8A;
+  --tag-wege:#5C7A3D;
+  --tag-asian:#A6642B;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px;}
+header.hero{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:20px;margin-bottom:28px;flex-wrap:wrap;
+}
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:clamp(30px,4.5vw,48px);
+  margin:0 0 6px;
+  letter-spacing:-0.01em;
+}
+.hero .sub{color:var(--ink-soft);font-size:15px;max-width:560px;line-height:1.5;}
+.stamp{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  border:1.5px solid var(--ink);border-radius:999px;
+  padding:8px 16px;white-space:nowrap;
+}
+nav.tabs{
+  display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;
+}
+nav.tabs button{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;letter-spacing:.03em;text-transform:uppercase;
+  background:transparent;border:1.5px solid var(--ink);
+  color:var(--ink);padding:10px 18px;border-radius:999px;
+  cursor:pointer;transition:all .15s ease;
+}
+nav.tabs button.active{background:var(--ink);color:var(--bg);}
+nav.tabs button:hover:not(.active){background:rgba(33,46,29,0.08);}
+section.view{display:none;}
+section.view.active{display:block;}
+
+.prep-box{
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;
+  padding:18px 22px;margin-bottom:24px;
+}
+.prep-box h3{font-family:'Fraunces',serif;font-size:17px;margin:0 0 8px;}
+.prep-box p{font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin:0 0 10px;}
+.prep-box ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7;}
+.bases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px;}
+.base-card{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
+.base-card .bname{font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin-bottom:4px;}
+.base-card .bqty{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--sage-deep);font-weight:600;margin-bottom:6px;}
+.base-card .bdays{font-size:11.5px;color:var(--ink-soft);line-height:1.5;}
+
+.block-header{
+  display:flex;align-items:center;gap:10px;margin:26px 0 14px;
+}
+.block-header:first-child{margin-top:0;}
+.block-header h2{font-family:'Fraunces',serif;font-size:20px;margin:0;font-weight:600;}
+.block-header .brange{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+.block-header::after{content:"";flex:1;height:1px;background:var(--line);}
+.repeat-tag{
+  font-size:9px;padding:2px 7px;border-radius:999px;background:var(--gold);color:#fff;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;text-transform:uppercase;margin-left:6px;
+}
+.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;}
+.day-card{
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:4px;
+  position:relative;overflow:hidden;
+}
+.day-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:8px;
+  background-image:radial-gradient(circle,var(--bg) 3px,transparent 3.5px);
+  background-size:14px 14px;background-position:4px -6px;
+}
+.day-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 18px 12px;border-bottom:1px dashed var(--line);
+}
+.day-head .dname{font-family:'Fraunces',serif;font-weight:600;font-size:22px;}
+.day-head .ddate{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);}
+.meal-row{padding:12px 18px;border-bottom:1px solid var(--line);}
+.meal-row:last-of-type{border-bottom:none;}
+.meal-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;display:flex;justify-content:space-between;align-items:center;}
+.meal-name{font-size:14.5px;font-weight:600;line-height:1.3;}
+.microtag{font-size:9px;padding:2px 7px;border-radius:999px;color:#fff;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+.mt-mieso{background:var(--tag-mieso);}
+.mt-ryba{background:var(--tag-ryba);}
+.mt-wege{background:var(--tag-wege);}
+.mt-asian{background:var(--tag-asian);}
+.dessert-row{padding:10px 18px;background:rgba(196,146,46,0.1);font-size:13px;font-family:'IBM Plex Mono',monospace;}
+.kcal-foot{
+  display:flex;gap:8px;padding:12px 18px 16px;flex-wrap:wrap;
+}
+.pill{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  padding:5px 10px;border-radius:999px;color:#fff;
+}
+.pill.husband{background:var(--tag-husband);}
+.pill.wife{background:var(--tag-wife);}
+
+.filter-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.filter-row button{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.03em;
+  background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:7px 14px;cursor:pointer;
+}
+.filter-row button.active{border-color:var(--ink);background:var(--ink);color:#fff;}
+.recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
+.recipe-card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:20px;}
+.recipe-card h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 4px;font-weight:600;}
+.recipe-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;}
+.badge-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.badge{font-size:10px;padding:3px 9px;border-radius:999px;color:#fff;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;text-transform:uppercase;}
+.recipe-card h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin:14px 0 6px;}
+.recipe-card ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.65;}
+.recipe-card p.steps{font-size:13.5px;line-height:1.6;margin:0 0 6px;color:var(--ink-soft);}
+.portion-note{font-size:12px;color:var(--tag-wife);margin-top:10px;font-style:italic;}
+
+.shop-intro{font-size:14px;color:var(--ink-soft);margin-bottom:20px;max-width:640px;line-height:1.6;}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.shop-cat{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px 20px;}
+.shop-cat h3{font-family:'Fraunces',serif;font-size:16px;margin:0 0 10px;border-bottom:1px solid var(--line);padding-bottom:8px;}
+.shop-cat ul{list-style:none;margin:0;padding:0;}
+.shop-cat li{display:flex;gap:8px;align-items:baseline;font-size:13.5px;padding:4px 0;border-bottom:1px dotted var(--line);}
+.shop-cat li:last-child{border-bottom:none;}
+.shop-cat li .qty{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--sage-deep);min-width:70px;}
+.note-box{
+  margin-top:22px;background:rgba(196,146,46,0.12);border:1px dashed var(--gold);
+  border-radius:8px;padding:16px 20px;font-size:13px;line-height:1.6;
+}
+footer.legend{margin-top:36px;font-size:12px;color:var(--ink-soft);line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <h1>Dieta pudełkowa — Tydzień 1</h1>
+      <div class="sub">3 posiłki dziennie, gotowanie w 2 blokach (Pon–Czw i Pt–Nd) — mniej codziennej pracy. Ok. 30% posiłków się powtarza. Bez powtórki tego samego typu białka (mięso/ryba) w ciągu dnia, bez wina, bez małży w tym tygodniu.</div>
+    </div>
+    <div class="stamp">Osoba 1 (1900 kcal) / Osoba 2 (1200 kcal)</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-view="plan">Plan tygodnia</button>
+    <button data-view="recipes">Przepisy</button>
+    <button data-view="shopping">Lista zakupów</button>
+  </nav>
+
+  <section class="view active" id="view-plan">
+    <div class="prep-box">
+      <h3>Blok 1 — przygotuj <span style="font-weight:400;color:var(--ink-soft);">dziś wieczorem (16.07) lub jutro wcześnie rano (17.07)</span></h3>
+      <p style="margin-bottom:6px;">Starczy na dni 1–3: <strong>Piątek 17.07, Sobota 18.07, Niedziela 19.07</strong>. Ilości poniżej są już policzone <strong>dla obojga razem</strong>.</p>
+      <ol style="font-size:13.5px;line-height:1.85;padding-left:20px;margin:0;">
+        <li><strong>Ziemniaki — 820 g.</strong> Obierz, ugotuj w osolonej wodzie ok. 20 min do miękkości. Odcedź, podziel na 2 pojemniki po połowie. → obiad w <em>Piątek</em> i <em>Niedzielę</em> (kurczak z ziemniakami).</li>
+        <li><strong>Ryż — 145 g (surowy).</strong> Ugotuj wg instrukcji na opakowaniu, przełóż do pojemnika. → obiad w <em>Sobotę</em> (krewetki z ryżem).</li>
+        <li><strong>Kurczak pieczony z marchewką.</strong> 720 g piersi z kurczaka + 490 g marchwi (w słupkach) + 6 ząbków czosnku, skrop oliwą, posyp ziołami prowansalskimi. Piecz w 200°C ok. 30 min, aż się zarumieni. Podziel na 2 pojemniki (po 1 na dzień). → obiad w <em>Piątek</em> i <em>Niedzielę</em> — łącz z ziemniakami z pkt 1.</li>
+        <li><strong>Krem z brokuła.</strong> 655 g brokuła ugotuj w bulionie warzywnym z czosnkiem (wg przepisu w zakładce Przepisy), zmiksuj na gładko, dodaj śmietankę. Przełóż do słoika/pojemnika. → kolacja w <em>Sobotę</em>.</li>
+        <li><strong>Jajka na twardo — 2 szt.</strong> Ugotuj na twardo (ok. 9 min od wrzenia), ostudź, obierz. → kolacja w <em>Piątek</em> (sałatka z tuńczykiem).</li>
+      </ol>
+      <p style="margin:12px 0 0;font-size:12.5px;">Krewetki (sobota) i sałatka grecka (niedziela) robisz świeżo tego samego dnia — nie wymagają przygotowań wcześniej.</p>
+    </div>
+
+    <div class="prep-box">
+      <h3>Blok 2 — przygotuj <span style="font-weight:400;color:var(--ink-soft);">w niedzielę wieczorem (19.07) lub w poniedziałek wcześnie rano (20.07)</span></h3>
+      <p style="margin-bottom:6px;">Starczy na dni 4–7: <strong>Poniedziałek 20.07 – Czwartek 23.07</strong>. Ilości poniżej są już policzone <strong>dla obojga razem</strong>.</p>
+      <ol style="font-size:13.5px;line-height:1.85;padding-left:20px;margin:0;">
+        <li><strong>Kasza gryczana — 260 g (surowa).</strong> Ugotuj wg instrukcji na opakowaniu, przełóż do pojemnika. → obiad w <em>Poniedziałek</em> i <em>Środę</em> (gulasz z kaszą).</li>
+        <li><strong>Gulasz wołowy.</strong> 650 g wołowiny gulaszowej + 4 cebule + 4 marchewki + 330 g przecieru pomidorowego, dopraw papryką słodką. Duś pod przykryciem ok. 1,5h, aż mięso będzie miękkie. Podziel na 2 pojemniki. → obiad w <em>Poniedziałek</em> i <em>Środę</em> — łącz z kaszą z pkt 1 i kapustą kiszoną (świeżo z słoika, bez gotowania).</li>
+        <li><strong>Ziemniaki — 325 g.</strong> Osobna, mniejsza partia niż w bloku 1 — ugotuj tak samo jak poprzednio. → obiad we <em>Wtorek</em> (łosoś z ziemniakami).</li>
+        <li><strong>Łosoś pieczony — 295 g filetu.</strong> Skrop oliwą, piecz w 200°C ok. 15 min. → obiad we <em>Wtorek</em> — w dniu jedzenia tylko dodaj cytrynę i koperek.</li>
+        <li><strong>Buraki — 650 g.</strong> Ugotuj w łupinach ok. 30–40 min do miękkości, ostudź, obierz. Podziel na 2 pojemniki. → kolacja we <em>Wtorek</em> i <em>Środę</em> (sałatka z burakiem i kozim serem).</li>
+      </ol>
+      <p style="margin:12px 0 0;font-size:12.5px;">Omlet z boczkiem (czwartek śniadanie), tom yum (poniedziałek kolacja — bulion możesz ugotować dzień wcześniej) i Pad Thai z krewetkami (czwartek obiad) robisz świeżo tego samego dnia.</p>
+    </div>
+    <div class="bases-grid" id="bases-grid" style="display:none;"></div>
+    <div id="days-grid"></div>
+  </section>
+
+  <section class="view" id="view-recipes">
+    <div class="filter-row" id="portion-row" style="margin-bottom:10px;">
+      <button data-portion="husband" class="active">Osoba 1 (1900) · 1 os.</button>
+      <button data-portion="wife">Osoba 2 (1200) · 1 os.</button>
+      <button data-portion="both">Oboje · 2 osoby</button>
+    </div>
+    <div class="filter-row" id="filter-row">
+      <button class="active" data-cat="all">Wszystkie</button>
+      <button data-cat="sniadanie">Śniadania</button>
+      <button data-cat="obiad">Obiady</button>
+      <button data-cat="kolacja">Kolacje</button>
+    </div>
+    <div class="recipe-grid" id="recipe-grid"></div>
+  </section>
+
+  <section class="view" id="view-shopping">
+    <div class="shop-intro">Zakupy na 7 dni, dla obu osób łącznie (porcja żony liczona jako ~63% porcji męża, zaokrąglona do sensownych jednostek). Przyprawy i dodatki traktuj jako listę kontrolną — sprawdź zapasy, nie kupuj jeśli już masz.</div>
+    <div class="shop-grid" id="shop-grid"></div>
+    <div class="note-box" id="dessert-note"></div>
+  </section>
+
+  <footer class="legend">Wartości kcal są orientacyjne (±10%) — to plan poglądowy do szacowania porcji, nie precyzyjne wyliczenie makroskładników. Porcja Osoby 2 to każdorazowo ok. 63% wagi/ilości porcji Osoby 1 (1200/1900), z wyjątkiem gotowych deserów, gdzie Osoba 2 je mniejszą/połówkową porcję. Znaczniki: <span class="badge" style="background:var(--tag-mieso)">mięso</span> <span class="badge" style="background:var(--tag-ryba)">ryba/owoce morza</span> <span class="badge" style="background:var(--tag-wege)">wege</span> <span class="badge" style="background:var(--tag-asian)">azjatyckie</span></footer>
+</div>
+
+<script>
+const WIFE_RATIO = 0.632;
+
+const recipes = [
+  {id:'b1',cat:'sniadanie',name:'Jajecznica ze szczypiorkiem i pomidorem',kcal:460,protein:'wege',asian:false,reheatMin:8,
+    ing:[
+      {n:'jajka',q:3,u:'szt',c:'nabial'},
+      {n:'pomidor',q:1,u:'szt',c:'warzywa'},
+      {n:'szczypiorek',q:0.25,u:'pęczek',c:'warzywa'},
+      {n:'masło',q:10,u:'g',c:'nabial'},
+      {n:'chleb razowy',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: brak, danie robi się na bieżąco. W dniu jedzenia (8 min): jajka roztrzep, podsmaż z pokrojonym pomidorem na maśle, dopraw, posyp szczypiorkiem, podawaj z pieczywem.'},
+  {id:'b2',cat:'sniadanie',name:'Twarożek z rzodkiewką i awokado',kcal:460,protein:'wege',asian:false,reheatMin:5,
+    ing:[
+      {n:'twaróg półtłusty',q:150,u:'g',c:'nabial'},
+      {n:'rzodkiewka',q:5,u:'szt',c:'warzywa'},
+      {n:'awokado',q:0.5,u:'szt',c:'warzywa'},
+      {n:'chleb razowy',q:2,u:'kromki',c:'suche'},
+      {n:'oliwa z oliwek',q:1,u:'łyżeczka',c:'przyprawy'},
+    ],
+    steps:'Przygotowanie wcześniej: brak. W dniu jedzenia (5 min): twaróg wymieszaj z oliwą, podawaj na pieczywie z plastrami rzodkiewki i awokado.'},
+  {id:'b3',cat:'sniadanie',name:'Kanapki z pastą z tuńczyka i jajkiem',kcal:440,protein:'ryba',asian:false,reheatMin:10,
+    ing:[
+      {n:'tuńczyk w wodzie (puszka)',q:140,u:'g',c:'mieso'},
+      {n:'jajko (ugotowane wcześniej)',q:1,u:'szt',c:'nabial'},
+      {n:'jogurt naturalny',q:1,u:'łyżka',c:'nabial'},
+      {n:'ogórek kiszony',q:1,u:'szt',c:'warzywa'},
+      {n:'chleb razowy',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: ugotuj jajka na twardo na zapas (starczą na kilka dni). W dniu jedzenia (10 min): tuńczyka rozgnieć z jogurtem, dodaj posiekane jajko, podawaj na pieczywie z ogórkiem kiszonym.'},
+  {id:'b4',cat:'sniadanie',name:'Jajka sadzone z pomidorami i cebulką',kcal:440,protein:'wege',asian:false,reheatMin:10,
+    ing:[
+      {n:'jajka',q:3,u:'szt',c:'nabial'},
+      {n:'pomidor',q:1,u:'szt',c:'warzywa'},
+      {n:'cebula',q:0.25,u:'szt',c:'warzywa'},
+      {n:'masło',q:10,u:'g',c:'nabial'},
+      {n:'chleb razowy',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: brak. W dniu jedzenia (10 min): cebulę i pomidora podsmaż na maśle, zrób miejsce i wbij jajka, smaż do ścięcia białek. Podawaj z pieczywem.'},
+  {id:'b5',cat:'sniadanie',name:'Kanapki z pastą jajeczną, rzodkiewką i szczypiorkiem',kcal:470,protein:'wege',asian:false,reheatMin:8,
+    ing:[
+      {n:'jajka (ugotowane wcześniej)',q:3,u:'szt',c:'nabial'},
+      {n:'jogurt naturalny',q:2,u:'łyżki',c:'nabial'},
+      {n:'rzodkiewka',q:4,u:'szt',c:'warzywa'},
+      {n:'szczypiorek',q:0.25,u:'pęczek',c:'warzywa'},
+      {n:'chleb razowy',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: jajka na twardo z zapasu. W dniu jedzenia (8 min): jajka posiekaj, wymieszaj z jogurtem, dopraw solą i pieprzem, podawaj na pieczywie z plastrami rzodkiewki i szczypiorkiem.'},
+  {id:'b6',cat:'sniadanie',name:'Omlet z boczkiem, cebulką i pomidorem',kcal:520,protein:'mieso',asian:false,reheatMin:10,
+    ing:[
+      {n:'jajka',q:3,u:'szt',c:'nabial'},
+      {n:'boczek wędzony',q:40,u:'g',c:'mieso'},
+      {n:'cebula',q:0.25,u:'szt',c:'warzywa'},
+      {n:'pomidor',q:0.5,u:'szt',c:'warzywa'},
+      {n:'masło',q:10,u:'g',c:'nabial'},
+      {n:'chleb żytni',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: brak. W dniu jedzenia (10 min): boczek zrumień, dodaj cebulę i pomidora, zalej roztrzepanymi jajkami, smaż na maśle. Podawaj z chlebem.'},
+  {id:'b7',cat:'sniadanie',name:'Twaróg z miodem, orzechami i jabłkiem',kcal:430,protein:'wege',asian:false,reheatMin:3,
+    ing:[
+      {n:'twaróg półtłusty',q:150,u:'g',c:'nabial'},
+      {n:'miód',q:1,u:'łyżka',c:'przyprawy'},
+      {n:'orzechy włoskie',q:15,u:'g',c:'przyprawy'},
+      {n:'jabłko',q:1,u:'szt',c:'warzywa'},
+    ],
+    steps:'Przygotowanie wcześniej: brak, danie na zimno. W dniu jedzenia (3 min): twaróg wymieszaj z miodem, podawaj z orzechami i pokrojonym jabłkiem.'},
+
+  {id:'l1',cat:'obiad',name:'Krewetki w maśle czosnkowym z ryżem i brokułem',kcal:700,protein:'ryba',asian:false,reheatMin:10,base:'ryż',
+    ing:[
+      {n:'krewetki',q:200,u:'g',c:'mieso'},
+      {n:'ryż (surowy)',q:90,u:'g',c:'suche'},
+      {n:'brokuł',q:200,u:'g',c:'warzywa'},
+      {n:'czosnek',q:3,u:'ząbki',c:'warzywa'},
+      {n:'masło',q:20,u:'g',c:'nabial'},
+      {n:'natka pietruszki',q:0.25,u:'pęczek',c:'warzywa'},
+    ],
+    steps:'Baza: ryż — ugotowany wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: brokuł podgotuj na parze i przechowuj razem z ryżem. W dniu jedzenia (10 min): krewetki podsmaż na maśle z czosnkiem, dodaj podgrzany ryż i brokuł, wymieszaj, posyp natką.'},
+  {id:'l2',cat:'obiad',name:'Kurczak pieczony z ziemniakami i marchewką',kcal:760,protein:'mieso',asian:false,reheatMin:8,base:'ziemniaki',
+    ing:[
+      {n:'pierś z kurczaka',q:220,u:'g',c:'mieso'},
+      {n:'ziemniaki',q:250,u:'g',c:'warzywa'},
+      {n:'marchew',q:150,u:'g',c:'warzywa'},
+      {n:'czosnek',q:2,u:'ząbki',c:'warzywa'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+      {n:'zioła prowansalskie',q:1,u:'łyżeczka',c:'przyprawy'},
+    ],
+    steps:'Baza: ziemniaki — ugotowane wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: upiecz kurczaka z marchewką, czosnkiem i ziołami (200°C, ok. 30 min) w dniu przygotowań. W dniu jedzenia (8 min): podgrzej kurczaka z marchewką i ziemniakami.'},
+  {id:'l3',cat:'obiad',name:'Gulasz wołowy z kaszą gryczaną i surówką',kcal:750,protein:'mieso',asian:false,reheatMin:8,base:'kasza',
+    ing:[
+      {n:'wołowina gulaszowa',q:200,u:'g',c:'mieso'},
+      {n:'cebula',q:1,u:'szt',c:'warzywa'},
+      {n:'marchew',q:1,u:'szt',c:'warzywa'},
+      {n:'przecier pomidorowy',q:100,u:'g',c:'suche'},
+      {n:'kasza gryczana (surowa)',q:80,u:'g',c:'suche'},
+      {n:'kapusta kiszona',q:150,u:'g',c:'warzywa'},
+      {n:'papryka słodka (przyprawa)',q:1,u:'łyżeczka',c:'przyprawy'},
+    ],
+    steps:'Baza: kasza gryczana — ugotowana wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: ugotuj gulasz (dusić ok. 1,5h) w dniu przygotowań. W dniu jedzenia (8 min): podgrzej gulasz z kaszą, podawaj z kapustą kiszoną jako surówką.'},
+  {id:'l4',cat:'obiad',name:'Pad Thai z krewetkami',kcal:760,protein:'ryba',asian:true,reheatMin:15,base:'makaron',
+    ing:[
+      {n:'krewetki',q:180,u:'g',c:'mieso'},
+      {n:'makaron ryżowy',q:90,u:'g',c:'suche'},
+      {n:'jajko',q:1,u:'szt',c:'nabial'},
+      {n:'kiełki fasoli mung',q:50,u:'g',c:'warzywa'},
+      {n:'orzeszki ziemne',q:20,u:'g',c:'przyprawy'},
+      {n:'sos rybny',q:1,u:'łyżka',c:'przyprawy'},
+      {n:'limonka',q:0.5,u:'szt',c:'warzywa'},
+    ],
+    steps:'Baza: makaron ryżowy — to jedyna baza gotowana świeżo tego dnia (namaka się w kilka minut, nie warto robić z wyprzedzeniem). W dniu jedzenia (15 min): namocz makaron, krewetki i jajko podsmaż, dodaj makaron, kiełki i sos rybny, wymieszaj, podawaj z orzeszkami i limonką.'},
+  {id:'l5',cat:'obiad',name:'Łosoś pieczony z cytryną i koperkiem, ziemniaki',kcal:700,protein:'ryba',asian:false,reheatMin:8,base:'ziemniaki',
+    ing:[
+      {n:'łosoś (filet)',q:180,u:'g',c:'mieso'},
+      {n:'ziemniaki',q:200,u:'g',c:'warzywa'},
+      {n:'cytryna',q:0.5,u:'szt',c:'warzywa'},
+      {n:'koperek świeży',q:0.25,u:'pęczek',c:'warzywa'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+    ],
+    steps:'Baza: ziemniaki — ugotowane wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: upiecz łososia (200°C, 15 min) w dniu przygotowań. W dniu jedzenia (8 min): podgrzej łososia z ziemniakami, skrop cytryną i posyp koperkiem.'},
+  {id:'l6',cat:'obiad',name:'Kotlety mielone z indyka z kaszą gryczaną i surówką',kcal:750,protein:'mieso',asian:false,reheatMin:8,base:'kasza',
+    ing:[
+      {n:'mięso mielone z indyka',q:220,u:'g',c:'mieso'},
+      {n:'kasza gryczana (surowa)',q:80,u:'g',c:'suche'},
+      {n:'jajko',q:1,u:'szt',c:'nabial'},
+      {n:'bułka tarta',q:20,u:'g',c:'suche'},
+      {n:'cebula',q:0.25,u:'szt',c:'warzywa'},
+      {n:'marchew',q:1,u:'szt',c:'warzywa'},
+      {n:'jabłko',q:0.5,u:'szt',c:'warzywa'},
+    ],
+    steps:'Baza: kasza gryczana — ugotowana wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: uformuj i usmaż kotlety z indyka (mięso + cebula + jajko + bułka tarta) w dniu przygotowań. W dniu jedzenia (8 min): podgrzej kotlety z kaszą, podawaj z surówką z marchewki i jabłka.'},
+  {id:'l7',cat:'obiad',name:'Wołowina stir-fry z warzywami w sosie sojowym',kcal:730,protein:'mieso',asian:true,reheatMin:10,base:'ryż',
+    ing:[
+      {n:'wołowina (polędwica/antrykot)',q:180,u:'g',c:'mieso'},
+      {n:'cukinia',q:1,u:'szt',c:'warzywa'},
+      {n:'papryka',q:1,u:'szt',c:'warzywa'},
+      {n:'marchew',q:1,u:'szt',c:'warzywa'},
+      {n:'ryż (surowy)',q:90,u:'g',c:'suche'},
+      {n:'sos sojowy',q:1,u:'łyżka',c:'przyprawy'},
+      {n:'czosnek',q:2,u:'ząbki',c:'warzywa'},
+    ],
+    steps:'Baza: ryż — ugotowany wcześniej (patrz: Bazy tygodnia). Przygotowanie wcześniej: warzywa i wołowinę pokrój na kawałki w dniu przygotowań, trzymaj w lodówce. W dniu jedzenia (10 min): smaż wołowinę na dużym ogniu, dodaj warzywa i czosnek, na końcu sos sojowy, podawaj z podgrzanym ryżem.'},
+
+  {id:'k1',cat:'kolacja',name:'Sałatka z tuńczykiem, jajkiem, pomidorami i oliwkami',kcal:480,protein:'ryba',asian:false,reheatMin:8,
+    ing:[
+      {n:'tuńczyk w wodzie (puszka)',q:140,u:'g',c:'mieso'},
+      {n:'jajko (ugotowane wcześniej)',q:1,u:'szt',c:'nabial'},
+      {n:'pomidory',q:150,u:'g',c:'warzywa'},
+      {n:'oliwki',q:30,u:'g',c:'przyprawy'},
+      {n:'sałata mix',q:50,u:'g',c:'warzywa'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+    ],
+    steps:'Przygotowanie wcześniej: jajka na twardo z zapasu. W dniu jedzenia (8 min): wszystkie składniki ułóż na talerzu, skrop oliwą.'},
+  {id:'k2',cat:'kolacja',name:'Krem z brokuła z grzankami',kcal:480,protein:'wege',asian:false,reheatMin:8,
+    ing:[
+      {n:'brokuł',q:400,u:'g',c:'warzywa'},
+      {n:'bulion warzywny',q:500,u:'ml',c:'przyprawy'},
+      {n:'śmietanka 30%',q:50,u:'ml',c:'nabial'},
+      {n:'czosnek',q:2,u:'ząbki',c:'warzywa'},
+      {n:'chleb (na grzanki)',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: ugotuj brokuł z czosnkiem w bulionie i zmiksuj z jednorazowym dodatkiem śmietanki w dniu przygotowań. W dniu jedzenia (8 min): podgrzej zupę, podawaj z grzankami.'},
+  {id:'k3',cat:'kolacja',name:'Sałatka grecka z fetą i oliwkami',kcal:460,protein:'wege',asian:false,reheatMin:8,
+    ing:[
+      {n:'ogórek',q:1,u:'szt',c:'warzywa'},
+      {n:'pomidor',q:2,u:'szt',c:'warzywa'},
+      {n:'papryka',q:0.5,u:'szt',c:'warzywa'},
+      {n:'cebula czerwona',q:0.25,u:'szt',c:'warzywa'},
+      {n:'ser feta',q:80,u:'g',c:'nabial'},
+      {n:'oliwki',q:30,u:'g',c:'przyprawy'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+      {n:'oregano suszone',q:1,u:'łyżeczka',c:'przyprawy'},
+    ],
+    steps:'Przygotowanie wcześniej: brak. W dniu jedzenia (8 min): warzywa pokrój, wymieszaj z fetą i oliwkami, skrop oliwą i posyp oregano.'},
+  {id:'k4',cat:'kolacja',name:'Omlet warzywny z serem feta',kcal:560,protein:'wege',asian:false,reheatMin:10,
+    ing:[
+      {n:'jajka',q:3,u:'szt',c:'nabial'},
+      {n:'papryka',q:0.5,u:'szt',c:'warzywa'},
+      {n:'szpinak świeży',q:50,u:'g',c:'warzywa'},
+      {n:'ser feta',q:50,u:'g',c:'nabial'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+    ],
+    steps:'Przygotowanie wcześniej: brak. W dniu jedzenia (10 min): paprykę i szpinak podsmaż na oliwie, zalej roztrzepanymi jajkami, na koniec pokrusz fetę, smaż pod przykryciem do ścięcia.'},
+  {id:'k5',cat:'kolacja',name:'Zupa tajska tom yum z krewetkami',kcal:400,protein:'ryba',asian:true,reheatMin:12,
+    ing:[
+      {n:'krewetki',q:150,u:'g',c:'mieso'},
+      {n:'bulion (warzywny/rybny)',q:600,u:'ml',c:'przyprawy'},
+      {n:'trawa cytrynowa',q:1,u:'łodyga',c:'przyprawy'},
+      {n:'limonka',q:1,u:'szt',c:'warzywa'},
+      {n:'chili świeże',q:1,u:'szt',c:'warzywa'},
+      {n:'grzyby shiitake świeże',q:80,u:'g',c:'warzywa'},
+      {n:'pomidorki koktajlowe',q:100,u:'g',c:'warzywa'},
+    ],
+    steps:'Przygotowanie wcześniej: bulion z trawą cytrynową można ugotować dzień wcześniej. W dniu jedzenia (12 min): zagotuj bulion, dodaj grzyby i pomidorki, gotuj 5 min, na koniec krewetki i sok z limonki.'},
+  {id:'k6',cat:'kolacja',name:'Sałatka z gotowanym burakiem, kozim serem i orzechami',kcal:500,protein:'wege',asian:false,reheatMin:5,
+    ing:[
+      {n:'burak (ugotowany wcześniej)',q:200,u:'g',c:'warzywa'},
+      {n:'ser kozi',q:50,u:'g',c:'nabial'},
+      {n:'orzechy włoskie',q:20,u:'g',c:'przyprawy'},
+      {n:'rukola',q:30,u:'g',c:'warzywa'},
+      {n:'oliwa z oliwek',q:1,u:'łyżka',c:'przyprawy'},
+    ],
+    steps:'Przygotowanie wcześniej: ugotuj buraki w dniu przygotowań (30–40 min do miękkości), obierz i przechowuj w lodówce. W dniu jedzenia (5 min): pokrój buraka, ułóż z rukolą, pokrusz ser kozi i orzechy, skrop oliwą.'},
+  {id:'k7',cat:'kolacja',name:'Zupa pomidorowa z bazylią i grzankami',kcal:420,protein:'wege',asian:false,reheatMin:8,
+    ing:[
+      {n:'pomidory (świeże/krojone)',q:500,u:'g',c:'warzywa'},
+      {n:'bulion warzywny',q:300,u:'ml',c:'przyprawy'},
+      {n:'śmietanka 30%',q:30,u:'ml',c:'nabial'},
+      {n:'bazylia świeża',q:0.25,u:'pęczek',c:'warzywa'},
+      {n:'czosnek',q:1,u:'ząbek',c:'warzywa'},
+      {n:'chleb (na grzanki)',q:2,u:'kromki',c:'suche'},
+    ],
+    steps:'Przygotowanie wcześniej: ugotuj i zmiksuj zupę w dniu przygotowań, śmietankę dodaj przy podgrzewaniu. W dniu jedzenia (8 min): podgrzej zupę ze śmietanką, podawaj z bazylią i grzankami.'},
+];
+
+const recipeById = Object.fromEntries(recipes.map(r=>[r.id,r]));
+
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('section.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+btn.dataset.view).classList.add('active');
+  });
+});
+
+const plan = [
+  {day:'Piątek',date:'17/07',block:1,b:'b1',l:'l2',k:'k1',dessert:{name:'Wafle czekoladowe',kcalH:190,kcalW:110}},
+  {day:'Sobota',date:'18/07',block:1,b:'b2',l:'l1',k:'k2',dessert:{name:'Muffinka gotowa',kcalH:190,kcalW:110}},
+  {day:'Niedziela',date:'19/07',block:1,b:'b1',l:'l2',k:'k3',dessert:{name:'Wafle czekoladowe',kcalH:190,kcalW:110}},
+  {day:'Poniedziałek',date:'20/07',block:2,b:'b4',l:'l3',k:'k5',dessert:{name:'Słodki gotowiec',kcalH:190,kcalW:110}},
+  {day:'Wtorek',date:'21/07',block:2,b:'b5',l:'l5',k:'k6',dessert:{name:'Wafle czekoladowe',kcalH:190,kcalW:110}},
+  {day:'Środa',date:'22/07',block:2,b:'b4',l:'l3',k:'k6',dessert:{name:'Muffinka gotowa',kcalH:190,kcalW:110}},
+  {day:'Czwartek',date:'23/07',block:2,b:'b6',l:'l4',k:'k3',dessert:{name:'Słodki gotowiec',kcalH:190,kcalW:110}},
+];
+const blockInfo = {
+  1:{label:'Blok 1', range:'Piątek 17.07 – Niedziela 19.07', prepWhen:'dziś wieczorem (16.07) lub jutro wcześnie rano (17.07)'},
+  2:{label:'Blok 2', range:'Poniedziałek 20.07 – Czwartek 23.07', prepWhen:'w niedzielę wieczorem (19.07) lub w poniedziałek wcześnie rano (20.07)'},
+};
+
+function fmtQty(q){
+  return Number.isInteger(q) ? q : Math.round(q*10)/10;
+}
+function wifeQty(q,u){
+  let w = q*WIFE_RATIO;
+  if(u==='szt' || u==='ząbki' || u==='ząbek' || u==='kromki' || u==='kromka'){
+    w = Math.max(1, Math.round(w));
+  } else {
+    w = Math.round(w/5)*5 || Math.round(w);
+  }
+  return w;
+}
+const proteinLabel={mieso:'mięso',ryba:'ryba/owoce morza',wege:'wege'};
+
+const daysGridContainer = document.getElementById('days-grid');
+const seenMeal = {b:new Set(), l:new Set(), k:new Set()};
+let currentBlock = null;
+let blockDaysDiv = null;
+plan.forEach(d=>{
+  if(d.block !== currentBlock){
+    currentBlock = d.block;
+    const header=document.createElement('div');
+    header.className='block-header';
+    header.innerHTML=`<h2>${blockInfo[currentBlock].label}</h2><span class="brange">${blockInfo[currentBlock].range}</span>`;
+    daysGridContainer.appendChild(header);
+    blockDaysDiv=document.createElement('div');
+    blockDaysDiv.className='days-grid';
+    daysGridContainer.appendChild(blockDaysDiv);
+  }
+  const rb=recipeById[d.b], rl=recipeById[d.l], rk=recipeById[d.k];
+  const hKcal = rb.kcal+rl.kcal+rk.kcal+(d.dessert?d.dessert.kcalH:0);
+  const wKcal = Math.round((rb.kcal+rl.kcal+rk.kcal)*WIFE_RATIO)+(d.dessert?d.dessert.kcalW:0);
+  const tagFor = r => `<span class="microtag mt-${r.protein}">${proteinLabel[r.protein]}</span>${r.asian?'<span class="microtag mt-asian">azjatyckie</span>':''}`;
+  const repeatTag = (slot,id) => {
+    const isRepeat = seenMeal[slot].has(id);
+    seenMeal[slot].add(id);
+    return isRepeat ? '<span class="repeat-tag">powtórka</span>' : '';
+  };
+  const card=document.createElement('div');
+  card.className='day-card';
+  card.innerHTML=`
+    <div class="day-head"><span class="dname">${d.day}</span><span class="ddate">${d.date}</span></div>
+    <div class="meal-row"><div class="meal-label"><span>Śniadanie · ${rb.reheatMin} min</span>${repeatTag('b',d.b)}</div><div class="meal-name">${rb.name}</div><div style="margin-top:6px;">${tagFor(rb)}</div></div>
+    <div class="meal-row"><div class="meal-label"><span>Obiad · ${rl.reheatMin} min</span>${repeatTag('l',d.l)}</div><div class="meal-name">${rl.name}</div><div style="margin-top:6px;">${tagFor(rl)}</div></div>
+    <div class="meal-row"><div class="meal-label"><span>Kolacja · ${rk.reheatMin} min</span>${repeatTag('k',d.k)}</div><div class="meal-name">${rk.name}</div><div style="margin-top:6px;">${tagFor(rk)}</div></div>
+    ${d.dessert?`<div class="dessert-row">🍫 Deser: ${d.dessert.name}</div>`:''}
+    <div class="kcal-foot">
+      <span class="pill husband">Osoba 1 ~${hKcal} kcal</span>
+      <span class="pill wife">Osoba 2 ~${wKcal} kcal</span>
+    </div>
+  `;
+  blockDaysDiv.appendChild(card);
+});
+
+// ---------- BAZY TYGODNIA (per blok) ----------
+const BASE_NAMES = {
+  'ryż':{label:'Ryż (surowy)', ing:'ryż (surowy)', unit:'g'},
+  'kasza':{label:'Kasza gryczana (surowa)', ing:'kasza gryczana (surowa)', unit:'g'},
+  'ziemniaki':{label:'Ziemniaki', ing:'ziemniaki', unit:'g'},
+  'makaron':{label:'Makaron ryżowy (świeżo, nie na zapas)', ing:'makaron ryżowy', unit:'g'},
+};
+const basesGrid = document.getElementById('bases-grid');
+const baseTotals = {}; // key: block+'|'+base
+plan.forEach(d=>{
+  const rl = recipeById[d.l];
+  if(!rl.base) return;
+  const bi = rl.ing.find(i=>i.n===BASE_NAMES[rl.base].ing);
+  if(!bi) return;
+  const key = d.block+'|'+rl.base;
+  if(!baseTotals[key]) baseTotals[key]={block:d.block,base:rl.base,qty:0,days:[]};
+  baseTotals[key].qty += bi.q + wifeQty(bi.q,bi.u);
+  baseTotals[key].days.push(d.day);
+});
+Object.values(baseTotals).sort((a,b)=>a.block-b.block).forEach(val=>{
+  const meta=BASE_NAMES[val.base];
+  const card=document.createElement('div');
+  card.className='base-card';
+
+  card.innerHTML=`
+    <div class="bname">${blockInfo[val.block].label}: ${meta.label}</div>
+    <div class="bqty">${fmtQty(val.qty)} ${meta.unit} łącznie (oboje)</div>
+    <div class="bdays">Użyte na obiad: ${val.days.join(', ')}</div>
+  `;
+  basesGrid.appendChild(card);
+});
+
+const recipeGrid = document.getElementById('recipe-grid');
+const catLabels={sniadanie:'Śniadanie',obiad:'Obiad',kolacja:'Kolacja'};
+let currentCat = 'all';
+let currentPortion = 'husband';
+const portionLabels = {husband:'Osoba 1 (1900) · 1 os.', wife:'Osoba 2 (1200) · 1 os.', both:'Oboje · 2 osoby'};
+
+function ingForPortion(i, portion){
+  if(portion==='husband') return i.q;
+  if(portion==='wife') return wifeQty(i.q,i.u);
+  return i.q + wifeQty(i.q,i.u);
+}
+function kcalForPortion(k, portion){
+  if(portion==='husband') return k;
+  if(portion==='wife') return Math.round(k*WIFE_RATIO);
+  return k + Math.round(k*WIFE_RATIO);
+}
+
+function renderRecipes(filter, portion){
+  currentCat = filter; currentPortion = portion;
+  recipeGrid.innerHTML='';
+  recipes.filter(r=>filter==='all'||r.cat===filter).forEach(r=>{
+    const card=document.createElement('div');
+    card.className='recipe-card';
+    const ingList = r.ing.map(i=>`<li>${i.n} — ${fmtQty(ingForPortion(i,portion))} ${i.u}</li>`).join('');
+    const kcal = kcalForPortion(r.kcal, portion);
+    card.innerHTML=`
+      <h3>${r.name}</h3>
+      <div class="recipe-meta">${catLabels[r.cat]} · ~${kcal} kcal — ${portionLabels[portion]} · ${r.reheatMin} min w dniu jedzenia</div>
+      <div class="badge-row">
+        <span class="badge" style="background:var(--tag-${r.protein})">${proteinLabel[r.protein]}</span>
+        ${r.asian?'<span class="badge" style="background:var(--tag-asian)">azjatyckie</span>':''}
+      </div>
+      <h4>Składniki (${portionLabels[portion]})</h4>
+      <ul>${ingList}</ul>
+      <h4>Przygotowanie</h4>
+      <p class="steps">${r.steps}</p>
+      ${portion==='husband'?`<div class="portion-note">Porcja Osoby 2: ok. 63% ilości (≈ ${Math.round(r.kcal*WIFE_RATIO)} kcal)</div>`:''}
+      ${portion==='wife'?`<div class="portion-note">Porcja Osoby 1: ≈ ${r.kcal} kcal, pełne ilości składników</div>`:''}
+    `;
+    recipeGrid.appendChild(card);
+  });
+}
+renderRecipes('all','husband');
+document.getElementById('filter-row').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#filter-row button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderRecipes(e.target.dataset.cat, currentPortion);
+});
+document.getElementById('portion-row').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#portion-row button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderRecipes(currentCat, e.target.dataset.portion);
+});
+
+const catNames={
+  warzywa:'Warzywa i owoce',
+  mieso:'Mięso, ryby, owoce morza',
+  nabial:'Nabiał i jaja',
+  suche:'Pieczywo, produkty suche',
+  przyprawy:'Przyprawy, oleje, dodatki (sprawdź zapasy)'
+};
+const catOrder=['warzywa','mieso','nabial','suche','przyprawy'];
+const shop = {};
+catOrder.forEach(c=>shop[c]={});
+
+const usedRecipeIds = new Set();
+plan.forEach(d=>{[d.b,d.l,d.k].forEach(id=>usedRecipeIds.add(id));});
+
+usedRecipeIds.forEach(id=>{
+  const r=recipeById[id];
+  r.ing.forEach(i=>{
+    const key=i.n+'||'+i.u;
+    const wq=wifeQty(i.q,i.u);
+    const total=i.q+wq;
+    if(!shop[i.c][key]) shop[i.c][key]={n:i.n,u:i.u,q:0};
+    shop[i.c][key].q += total;
+  });
+});
+
+const shopGrid=document.getElementById('shop-grid');
+catOrder.forEach(c=>{
+  const items=Object.values(shop[c]).sort((a,b)=>a.n.localeCompare(b.n,'pl'));
+  const box=document.createElement('div');
+  box.className='shop-cat';
+  const rows=items.map(i=>`<li><span class="qty">${fmtQty(i.q)} ${i.u}</span><span>${i.n}</span></li>`).join('');
+  box.innerHTML=`<h3>${catNames[c]}</h3><ul>${rows}</ul>`;
+  shopGrid.appendChild(box);
+});
+
+document.getElementById('dessert-note').innerHTML =
+  `<strong>Gotowe desery do kupienia:</strong> wafle czekoladowe (3×), muffinka (2×), inny słodki gotowiec (2×) — po jednym każdego dnia tygodnia. Dla żony wystarczy mniejsza/połówkowa porcja tego samego produktu, dlatego nie kupuj osobno.`;
+</script>
+</body>
+</html>
